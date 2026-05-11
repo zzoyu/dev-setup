@@ -1,0 +1,142 @@
+direction: right
+vars: {
+  d2-config: {
+    layout-engine: elk
+  }
+}
+
+title: Architecture {
+  near: top-center
+  shape: text
+  style: {
+    font-size: 29
+    bold: true
+    underline: true
+  }
+}
+
+나: Me {
+  shape: person
+}
+
+Gemini: {
+  icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/google-gemini.svg
+}
+
+local: Local Network {
+  m4: Mac mini M4 {
+    zone: Inner Zone {
+      style: {
+        stroke-dash: 3
+      }
+      nginx: Nginx {
+        icon: https://www.svgrepo.com/show/373924/nginx.svg
+      }
+
+      database: PostgreSQL {
+        shape: cylinder
+        icon: https://icons.terrastruct.com/dev%2Fpostgresql.svg
+        icon.near: bottom-center
+      }
+
+      oc: OpenClaw {
+        icon: https://openclaw.ai/favicon.svg
+      }
+      oc -> database: Connects
+    }
+
+    cloudflared: Cloudflared {
+      icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/cloudflared.svg
+    }
+    vscode-server: VS Code Server {
+      icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/vscode.svg
+    }
+    ollama: Ollama {
+      icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/ollama.svg
+    }
+
+    zone.oc -> ollama: Uses
+
+    cloudflared -> zone.nginx {
+      style.stroke-dash: 5
+    }
+  }
+
+  RPi4B: Raspberry Pi 4B {
+    style: {
+      stroke-dash: 3
+    }
+    ha: Home Assistant {
+      icon: https://www.home-assistant.io/images/favicon-192x192.png
+    }
+    n8n: {
+      icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/n8n.svg
+    }
+    OctoPrint: {
+      icon: https://octoprint.org/assets/img/logo.png
+    }
+
+    ha -> OctoPrint: Manages
+  }
+  
+  m4.zone.nginx -> RPi4B: Routes to services
+
+  m4.zone.oc -> RPi4B: Manages overall
+
+  RPi4B.n8n -> m4.ollama: Uses
+}
+
+나 <-> local.m4.zone.oc: Interact via Discord {
+  icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/discord.svg
+}
+
+cf: Cloudflare Zero Trust {
+  shape: cloud
+  icon: https://cdn.jsdelivr.net/gh/selfhst/icons/svg/cloudflare-zero-trust.svg
+}
+
+나 -> cf: Authenticate
+
+cf -> local.m4.cloudflared: Access {
+  style.stroke-dash: 5
+}
+cf -> local.m4.vscode-server: Access {
+  style.stroke-dash: 5
+}
+
+Vercel {
+  icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/vercel.svg
+}
+Supabase {
+  icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/supabase.svg
+}
+GitHub {
+  icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/github.svg
+}
+oci: Oracle Cloud {
+  icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/oracle-cloud.svg
+}
+Sentry {
+  icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/sentry.svg
+}
+
+local.m4.vscode-server -> GitHub: Push / Commit {
+  style.stroke-dash: 5
+}
+
+나 -> GitHub: Release
+
+GitHub -> Vercel: Deploy {
+  style.stroke-dash: 5
+}
+
+Vercel -- Supabase: Interacts
+Vercel -- oci: Interacts
+
+Vercel -> Sentry: Sends Telemetry {
+  style.stroke-dash: 5
+}
+
+local.m4.zone.oc -> Gemini: Uses {
+  style.stroke-dash: 5
+}
