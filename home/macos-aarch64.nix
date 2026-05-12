@@ -1,10 +1,10 @@
 { config, pkgs, ... }:
-{
-  home.sessionVariables = {
-    GIT_AUTHOR = "$GIT_AUTHOR";
-    GIT_EMAIL = "$GIT_EMAIL";
-  };
+let
+  gitAuthor = "${config.home.sessionVariables.GIT_AUTHOR}";
+  gitEmail = "${config.home.sessionVariables.GIT_EMAIL}";
 
+in
+{
   home.packages = with pkgs; [
       starship
       git
@@ -14,6 +14,8 @@
       mpv
       yt-dlp
     ];
+  
+  home.homeDirectory = "/Users/${config.home.username}";
 
   programs = {
     zsh = {
@@ -31,8 +33,8 @@
       enable = true;
       settings = {
         user = {
-          name = "$GIT_AUTHOR";
-          email = "$GIT_EMAIL";
+          name = "${gitAuthor}";
+          email = "${gitEmail}";
         };
       };
     };

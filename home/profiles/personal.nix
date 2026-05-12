@@ -1,8 +1,8 @@
-{...}
+{ ... } :
 {
   imports = [ ../macos-aarch64.nix ];
 
-  sessionVariables = {
+  home.sessionVariables = {
     GIT_AUTHOR = "Yujin";
     GIT_EMAIL = "zzoyu@hotmail.com";
   };

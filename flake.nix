@@ -3,6 +3,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs@{ nixpkgs, home-manager, ... }:
@@ -16,22 +17,26 @@
         home-manager.lib.homeManagerConfiguration {
           pkgs = mkPkgs system;
           modules = [
-            homeFile
             {
               home.username = username;
-              home.homeDirectory = "/Users/${username}";
               home.stateVersion = "26.05";
             }
+            homeFile
           ];
         };
     
     in
     {
       homeConfigurations = {
-        "yujin-mac" = mkHome {
+        "personal" = mkHome {
           system = "aarch64-darwin";
           username = "yujin";
-          homeFile = ./home/macos-aarch64.nix;
+          homeFile = ./home/profiles/personal.nix;
+        };
+        "work" = mkHome {
+          system = "aarch64-darwin";
+          username = "yujin";
+          homeFile = ./home/profiles/work.nix;
         };
       };
     };
