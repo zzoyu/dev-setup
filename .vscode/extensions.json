@@ -1,0 +1,21 @@
+{
+  "recommendations": [
+    "vivaxy.vscode-conventional-commits",
+    "leonardssh.vscord",
+    "ms-vscode-remote.remote-containers",
+    "eliostruyf.vscode-front-matter",
+    "onlyutkarsh.git-config-user-profiles",
+    "github.vscode-github-actions",
+    "github.remotehub",
+    "heybourn.headwind",
+    "antfu.iconify",
+    "wix.vscode-import-cost",
+    "wholroyd.jinja",
+    "bernhard-42.ocp-cad-viewer",
+    "platformio.platformio-ide",
+    "ms-vscode-remote.remote-ssh",
+    "ms-vscode.vscode-serial-monitor",
+    "bradlc.vscode-tailwindcss",
+    "vitest.explorer"
+  ]
+}
