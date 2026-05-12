@@ -1,9 +1,12 @@
 { ... } :
 let
-  privateEnv = import ./work.private.nix;
+  privateEnv = import ~/personal/dev-setup/home/profiles/work.private.nix;
 in
 {
   imports = [ ../macos-aarch64.nix ];
 
-  home.sessionVariables = privateEnv.home.sessionVariables;
+  home.sessionVariables = {
+    GIT_AUTHOR = privateEnv.GIT_AUTHOR;
+    GIT_EMAIL = privateEnv.GIT_EMAIL;
+  };
 }
