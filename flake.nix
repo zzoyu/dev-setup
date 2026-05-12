@@ -1,19 +1,38 @@
 {
   description = "Personal environment setup";
-
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager";
-    home-manager.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, home-manager }:{
+  outputs = inputs@{ nixpkgs, home-manager, ... }:
+    let
+      mkPkgs = system: import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+      };
 
-    homeConfigurations."yujin-mac" = home-manager.lib.homeManagerConfiguration {
-      userName = "yujin";
-      homeDirectory = "/Users/yujin";
-      system = "aarch64-darwin";
-      configuration = import ./home/macos-aarch64.nix;
+      mkHome = { system, username, homeFile }:
+        home-manager.lib.homeManagerConfiguration {
+          pkgs = mkPkgs system;
+          modules = [
+            homeFile
+            {
+              home.username = username;
+              home.homeDirectory = "/Users/${username}";
+              home.stateVersion = "26.05";
+            }
+          ];
+        };
+    
+    in
+    {
+      homeConfigurations = {
+        "yujin-mac" = mkHome {
+          system = "aarch64-darwin";
+          username = "yujin";
+          homeFile = ./home/macos-aarch64.nix;
+        };
+      };
     };
-  };
 }
