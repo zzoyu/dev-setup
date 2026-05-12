@@ -29,6 +29,9 @@ in
         "bgm" = "mpv \"$@\" --no-video";
       };
     };
+    starship = {
+      enable = true;
+    };
     neovim = {
       enable = true;
       defaultEditor = true;
