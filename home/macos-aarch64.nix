@@ -29,6 +29,18 @@ in
         "bgm" = "mpv \"$@\" --no-video";
       };
     };
+    neovim = {
+      enable = true;
+      defaultEditor = true;
+      vimAlias = true;
+      plugins = with pkgs.vimPlugins; [
+        vim-nix
+        vim-fugitive
+        vim-rhubarb
+        vim-gitgutter
+        vim-sleuth
+      ];
+    };
     git = {
       enable = true;
       settings = {
