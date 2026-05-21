@@ -11,6 +11,7 @@ in
       fzf
       jq
       bun
+      uv
       mpv
       yt-dlp
     ];
@@ -23,6 +24,8 @@ in
       enableCompletion = true;
       oh-my-zsh.enable = true;
       shellAliases = {
+        "nix-work" = "home-manager switch --flake .#work --impure";
+        "nix-personal" = "home-manager switch --flake .#personal --impure";
         "copycat" = "cat \"$@\" | pbcopy";
         "untunnel" = "killall -HUP ssh";
         "orderjson" = "cat \"$@\" | jq -S > \"ordered-$@.json\"";
@@ -55,6 +58,10 @@ in
     };
 
     home-manager = {
+      enable = true;
+    };
+
+    gemini-cli = {
       enable = true;
     };
   };
